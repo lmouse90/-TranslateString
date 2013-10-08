@@ -20,6 +20,14 @@ struct Node
 	Node(int _i):i(_i),pLeft(NULL),pRight(NULL){}
 };
 
+void printVec(vector<int> vec)
+{
+	for(int i=0; i<vec.size(); i++)
+	{
+		cout << char('a' + vec[i] - 1);
+	}
+}
+
 //传入路径记录信息，这里只需要传值(***)
 //之前错误是因为传入的是引用，这样导致栈保存数据错误
 //传值时递归调用时返回的状态才回是当时节点之前的路径，否则会出现状态混乱的现象
@@ -30,15 +38,12 @@ bool translate(char* str,vector<int> vec, int& count)
 	{
 		if(*str != '0') //对最后 一个节点进行判断，如果是120，可能是1(20),12(0),则第二种就会出错
 		{
-			for(int i=0; i<vec.size(); i++)
-			{
-				cout << char('a' + vec[i] - 1);
-			}
-			cout << char('a' + *(str) - 1 - '0');
-			cout << endl;
+			printVec(vec);
+			cout << char('a' + *(str) - 1 - '0') << endl;
 			count++;
+			return true;
 		}
-		return true;
+		else return false;
 	}
 	else if(*(str+2) == '\0')
 	{
@@ -51,12 +56,10 @@ bool translate(char* str,vector<int> vec, int& count)
 		{	
 			if(num12 <= 26)
 			{
-				for(int i=0; i<vec.size(); i++)
-				{
-					cout << char('a' + vec[i] - 1);
-				}		
+				printVec(vec);	
 				cout << char('a' + num12 - 1) << endl;	
 				count++;
+				return true;
 			}
 			else
 			{
@@ -66,14 +69,12 @@ bool translate(char* str,vector<int> vec, int& count)
 		}
 		else if(num2 != 0)
 		{
-			for(int i=0; i<vec.size(); i++)
-			{
-				cout << char('a' + vec[i] - 1);
-			}	
+			printVec(vec);	
 			cout << char('a' + num1 - 1) <<  char('a' + num2- 1) << endl;
 			count++;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	if(*str < '0' || *str > '9')
@@ -104,7 +105,6 @@ bool translate(char* str,vector<int> vec, int& count)
 				vec.push_back(num1*10+num2);
 				if(flag) flag = translate(str+2,vec,count);
 			}
-
 		}
 		else //others, then exist two status
 		{
